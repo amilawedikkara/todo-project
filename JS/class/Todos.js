@@ -31,6 +31,12 @@ class Todos {
     });
   };
 
+  #addToArray = (id,text) =>{
+
+  }
+
+
+  
   //   addTask = async (description) => {
   //     try {
   //       const response = await fetch(`${this.#backendUrl}/new`, {
