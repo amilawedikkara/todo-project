@@ -1,17 +1,18 @@
-import Todos from './class/Todos.js';
+import { Todos } from "./class/Todos.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const taskInput = document.getElementById('taskInput');
-  const taskList = document.getElementById('taskList');
-  const BACKEND_URL = 'http://localhost:3001';
+  const taskInput = document.getElementById("taskInput");
+  const taskList = document.getElementById("taskList");
+  const BACKEND_URL = "http://localhost:3001";
   const todos = new Todos(BACKEND_URL);
 
   // Initial state
   taskInput.disabled = true;
 
   const renderTask = (task) => {
-    const li = document.createElement('li');
-    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+    const li = document.createElement("li");
+    li.className =
+      "list-group-item d-flex justify-content-between align-items-center";
     li.innerHTML = `
       ${task.description}
       <button class="btn btn-danger btn-sm">×</button>
@@ -22,11 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadTasks = async () => {
     try {
       const tasks = await todos.getTasks();
-      taskList.innerHTML = '';
+      taskList.innerHTML = "";
       tasks.forEach(renderTask);
       taskInput.disabled = false;
     } catch (error) {
-      console.error('Error loading tasks:', error);
+      console.error("Error loading tasks:", error);
       taskInput.disabled = false;
     }
   };
@@ -35,16 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const newTask = await todos.addTask(description);
       renderTask(newTask);
-      taskInput.value = '';
+      taskInput.value = "";
       taskInput.focus();
     } catch (error) {
-      console.error('Error adding task:', error);
+      console.error("Error adding task:", error);
     }
   };
 
   // Event Listeners
-  taskInput.addEventListener('keydown', async (e) => {
-    if (e.key === 'Enter' && taskInput.value.trim()) {
+  taskInput.addEventListener("keydown", async (e) => {
+    if (e.key === "Enter" && taskInput.value.trim()) {
       await addTask(taskInput.value.trim());
     }
   });
