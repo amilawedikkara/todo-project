@@ -32,10 +32,29 @@ class Todos {
   };
 
   #addToArray = (id,text) =>{
+    const task=new Task(id,text);
+    this.#tasks.push(task);
+    return task;
 
   }
 
-
+addTask =(text)=>{
+  return new Promise(async(resolve,reject) =>{
+    const json = JSON.stringify({description:text })//{description:description }
+    fetch(this.#backendUrl + '/new',{
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: json
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      resolve(this.#addToArray(json.id,text));//json.id,json.description
+    },
+    (error) => {
+      reject(error);
+     });
+  });
+}
   
   //   addTask = async (description) => {
   //     try {

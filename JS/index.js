@@ -32,21 +32,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const addTask = async (description) => {
-    try {
-      const newTask = await todos.addTask(description);
-      renderTask(newTask);
-      taskInput.value = "";
-      taskInput.focus();
-    } catch (error) {
-      console.error("Error adding task:", error);
-    }
-  };
+  // const addTask = async (description) => {
+  //   try {
+  //     const newTask = await todos.addTask(description);
+  //     renderTask(newTask);
+  //     taskInput.value = "";
+  //     taskInput.focus();
+  //   } catch (error) {
+  //     console.error("Error adding task:", error);
+  //   }
+  // };
 
   // Event Listeners
-  taskInput.addEventListener("keydown", async (e) => {
-    if (e.key === "Enter" && taskInput.value.trim()) {
-      await addTask(taskInput.value.trim());
+  taskInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const task = taskInput.value.trim();
+      if (task !== "") {
+        todos.addTask(task).then((task) => {
+          renderTask(task);
+          taskInput.value = "";
+          taskInput.focus();
+        });
+      }
     }
   });
 
