@@ -1,16 +1,15 @@
 import { Task } from "./Task.js";
 
 class Todos {
-  #backendUrl;
   #tasks = [];
-
-  constructor(backendUrl) {
-    this.#backendUrl = backendUrl;
+  #backend_url='';
+  constructor(url) {
+    this.#backend_url = url;
   }
 
-  getTasks = async () => {
+  getTasks = () => {
     return new Promise(async (resolve, reject) => {
-      fetch(this.#backendUrl)
+      fetch(this.#backend_url)
         .then((response) => response.json())
         .then(
           (json) => {
@@ -41,7 +40,7 @@ class Todos {
 addTask =(text)=>{
   return new Promise(async(resolve,reject) =>{
     const json = JSON.stringify({description:text })//{description:description }
-    fetch(this.#backendUrl + '/new',{
+    fetch(this.#backend_url + '/new',{
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: json
@@ -55,29 +54,6 @@ addTask =(text)=>{
      });
   });
 }
-  
-  //   addTask = async (description) => {
-  //     try {
-  //       const response = await fetch(`${this.#backendUrl}/new`, {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({ description })
-  //       });
-  //       return await this.#handleResponse(response);
-  //     } catch (error) {
-  //       throw new Error(`Failed to add task: ${error.message}`);
-  //     }
-  //   };
-
-  //   #handleResponse = async (response) => {
-  //     const data = await response.json();
-  //     if (!response.ok) throw new Error(data.error || 'Request failed');
-
-  //     if (Array.isArray(data)) {
-  //       return data.map(item => new Task(item.id, item.description));
-  //     }
-  //     return new Task(data.id, data.description);
-  //   };
 }
 
 export { Todos };

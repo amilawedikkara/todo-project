@@ -1,63 +1,62 @@
+const BACKEND_ROOT_URL = "http://localhost:3001";
+//import { get } from "http";
 import { Todos } from "./class/Todos.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const taskInput = document.getElementById("taskInput");
-  const taskList = document.getElementById("taskList");
-  const BACKEND_URL = "http://localhost:3001";
-  const todos = new Todos(BACKEND_URL);
+const todos = new Todos(BACKEND_ROOT_URL);
 
-  // Initial state
-  taskInput.disabled = true;
+const list = document.querySelector("ul");
+const input = document.querySelector("input");
 
-  const renderTask = (task) => {
+input.disabled = true;
+
+const renderTask = (task) => {
     const li = document.createElement("li");
-    li.className =
-      "list-group-item d-flex justify-content-between align-items-center";
-    li.innerHTML = `
-      ${task.description}
-      <button class="btn btn-danger btn-sm">×</button>
-    `;
-    taskList.appendChild(li);
-  };
+    li.setAttribute("class", "list-group-item");
+    li.innerHTML = task.getText();
+    list.appendChild(li);
+     };
 
-  const loadTasks = async () => {
+
+  const getTasks = () => {
+    todos.getTasks().then((tasks) => {
+      tasks.forEach((task) => {
+        renderTask(task);
+      });
+      input.disabled = false;
+    }).catch((error) => {
+      alert(error);
+    });
+  }
+ 
+
+const saveTask = async (task) => {
     try {
-      const tasks = await todos.getTasks();
-      taskList.innerHTML = "";
-      tasks.forEach(renderTask);
-      taskInput.disabled = false;
-    } catch (error) {
-      console.error("Error loading tasks:", error);
-      taskInput.disabled = false;
+      const json = JSON.stringify({ description: task });
+      const response = await fetch(BACKEND_ROOT_URL + "/new", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: json
+      });
+      return response.json();
+       } catch (error) {
+      alert("Error saving task:", error.message);
     }
   };
 
-  // const addTask = async (description) => {
-  //   try {
-  //     const newTask = await todos.addTask(description);
-  //     renderTask(newTask);
-  //     taskInput.value = "";
-  //     taskInput.focus();
-  //   } catch (error) {
-  //     console.error("Error adding task:", error);
-  //   }
-  // };
-
-  // Event Listeners
-  taskInput.addEventListener("keypress", (event) => {
+  // Event Listeners 
+  input.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      const task = taskInput.value.trim();
+      const task = input.value.trim();
       if (task !== "") {
-        todos.addTask(task).then((task) => {
+          todos.addTask(task).then((task) => {
           renderTask(task);
-          taskInput.value = "";
-          taskInput.focus();
-        });
-      }
+          input.value = "";
+          input.focus();
+        })
     }
+  }
   });
-
   // Initial load
-  loadTasks();
-});
+getTasks();
+

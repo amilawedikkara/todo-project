@@ -1,0 +1,13 @@
+### get
+GET http://localhost:3001
+
+### post
+POST http://localhost:3001/add HTTP/1.1
+content-type: application/json
+
+{
+    "description": "Test from REST Client"
+   }
+
+### delete
+DELETE http://localhost:3001/delete/3 HTTP/1.1

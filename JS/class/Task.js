@@ -1,18 +1,18 @@
 class Task {
     #id;
-    #description;
+    #text;
   
-    constructor(id, description) {
+    constructor(id, text) {
       this.#id = id;
-      this.#description = description;
+      this.#text = text;
     }
   
-    get id() {
+    getid() {
       return this.#id;
     }
   
-    get description() {
-      return this.#description;
+    getText() {
+      return this.#text;
     }
   }
   
