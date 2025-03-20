@@ -10,4 +10,4 @@ content-type: application/json
    }
 
 ### delete
-DELETE http://localhost:3001/delete/3 HTTP/1.1
+DELETE http://localhost:3001/delete/1 HTTP/1.1

@@ -34,13 +34,13 @@ app.get("/", async (req, res) => {
 app.post("/new", async (req, res) => {
   const pool = openDb(); // Open database connection
   pool.query(
-    "INSERT INTO tasks (description) VALUES ($1) RETURNING *",
+    "INSERT INTO task (description) VALUES ($1) RETURNING *",
     [req.body.description],
     (error, results) => {
       if (error) {
         res.status(500).json({ error: error.message });
       } else {
-        res.status(201).json(results.rows[0].id);
+        res.status(201).json(results.rows[0]);
       }
     }
   );
@@ -49,7 +49,9 @@ app.post("/new", async (req, res) => {
 app.delete("/delete/:id", async (req, res) => {
   const pool = openDb(); // Open database connection
   const id = parseInt(req.params.id); // Get task id from the request parameters
-  pool.query("DELETE FROM tasks WHERE id = $1", [id], (error, results) => {
+  pool.query('DELETE FROM task WHERE id = $1', 
+    [id],
+    (error, results) => {
     if (error) {
       res.status(500).json({ error: error.message });
     } else {
