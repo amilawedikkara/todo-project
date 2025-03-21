@@ -13,10 +13,10 @@ const renderTask = (task) => {
   const li = document.createElement("li");
   li.setAttribute("class", "list-group-item");
   li.setAttribute("data-key", task.getId().toString());
- 
+
   renderSpan(li, task.getText());
   renderLink(li, task.getId());
-  
+
   list.appendChild(li);
 }; //li.innerHTML = task.getText();//chenged-list.append(li);
 const renderSpan = (li, text) => {
@@ -28,9 +28,12 @@ const renderLink = (li, id) => {
   a.innerHTML = '<i class="bi bi-trash"></i>';
   a.setAttribute("style", "float: right");
   a.addEventListener("click", (event) => {
-    todos.removeTask(id)
+    todos
+      .removeTask(id)
       .then((removed_id) => {
-        const li_to_remove = document.querySelector(`[data-key="${removed_id}"]`);
+        const li_to_remove = document.querySelector(
+          `[data-key="${removed_id}"]`
+        );
         if (li_to_remove) {
           list.removeChild(li_to_remove);
         }
@@ -58,7 +61,8 @@ const getTasks = () => {
 const saveTask = async (task) => {
   try {
     const json = JSON.stringify({ description: task });
-    const response = await fetch(BACKEND_ROOT_URL + "/new", {
+    const response = await fetch(BACKEND_ROOT_URL + "/todo/new", {
+      //add /todo during section 7
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: json,
@@ -76,11 +80,11 @@ input.addEventListener("keypress", (event) => {
     const task = input.value.trim();
     if (task !== "") {
       todos.addTask(task).then((task) => {
-        if (task){
-        renderTask(task);
-        input.value = "";
-        input.focus();
-      }
+        if (task) {
+          renderTask(task);
+          input.value = "";
+          input.focus();
+        }
       });
     }
   }
