@@ -1,5 +1,5 @@
 //const BACKEND_ROOT_URL = "http://localhost:3001";
-const BACKEND_ROOT_URL = "https://todo-project-backend-1.onrender.com";
+const BACKEND_ROOT_URL = "https://todo-project-backend-1.onrender.com/todo";
 //import { get } from "http";
 import { Todos } from "./class/Todos.js";
 
