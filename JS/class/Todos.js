@@ -4,7 +4,7 @@ class Todos {
   #tasks = [];
   #backend_url = "";
   constructor(url) {
-    this.#backend_url = url+"/todo";//added /todo
+    this.#backend_url = url;//added /todo-removed-"/todo"
   }
  
   getTasks() {
