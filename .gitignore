@@ -37,3 +37,4 @@ Thumbs.db
 server/database.sqlite
 server/database.sqlite3
 server/database.sql
+/server
